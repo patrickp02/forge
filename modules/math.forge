@@ -1,0 +1,213 @@
+fn math_sum(a, b) => a + b
+
+fn math_subtract(a, b) => a - b
+
+fn math_multiply(a, b) => a * b
+
+fn math_divide(a, b) {
+    if b == 0 {
+        return null
+    }
+    return a / b
+}
+
+fn math_squared(x) => x * x
+fn math_neg(a) => a - (a * 2)
+fn math_average(a, b) => (a + b) / 2
+
+fn math_min(a, b) {
+    if a > b {
+        return b
+    }
+    return a
+}
+
+fn math_max(a, b) {
+    if a > b {
+        return a
+    }
+   return b
+}
+fn math_ipow(base, exp) -> float {
+    let result = 1.0
+    for let i = 0; i < exp; i++ {
+        result = result * base
+    }
+    return result
+}
+
+
+fn math_ln(x) -> float {
+    let n = 20
+    let result = 0.0
+    let y = (x - 1) / (x + 1)
+    let y2 = y * y
+    for let i = 0; i < n; i++ {
+        let term = (1 / (2 * i + 1)) * math.ipow(y, (2 * i + 1))
+        result = result + term
+    }
+    return 2 * result
+}
+
+fn math_exp(x) -> float {
+    let result = 1.0
+    let term = 1.0
+    for let i = 1; i < 20; i++ {
+        term = term * x / i
+        result = result + term
+    }
+    return result
+}
+
+fn math_pow(base, exponent) -> float {
+    if exponent == 0 {
+        return 1
+    }
+    if exponent == 1 {
+        return base
+    }
+    if exponent < 0 {
+        return 1 / math.pow(base, -exponent)
+    }
+
+    return math_exp(math_ln(base) * exponent)
+}
+
+
+fn math_maxa(ar: array) -> number {
+    if len(ar) == 0 {
+        return null
+    }
+
+    let max = ar[0]
+    for let i = 1; i < len(ar); i++ {
+        if ar[i] > max {
+            max = ar[i]
+        }
+    }
+    return max
+}
+
+fn math_sqrt(a) {
+    let x = a
+    let guess = a / 2.0
+    for let i = 0; i < 10; i++ {
+        guess = (guess + x / guess) / 2
+    }
+    return guess
+}
+
+fn math_mina(ar: array) {
+    if len(ar) == 0 {
+        return null
+    }
+    let min = ar[0]
+    for let i = 1; i < len(ar); i++ {
+        if ar[i] < min {
+        
+        } 
+    }   return min
+    
+}
+
+fn math_is_prime(n) {
+    print("Checking if", n, "is prime")
+
+    if n <= 1 {
+        print("Case: <= 1")
+        return false
+    }
+
+    if n == 2 {
+        print("Case: == 2")
+        return true
+    }
+
+    if n % 2 == 0 {
+        print("Case: even number")
+        return false
+    }
+
+    let raw_limit = math.sqrt(n)
+    print("Raw sqrt:", raw_limit)
+
+    let limit = raw_limit - (raw_limit % 1)
+    print("Truncated limit:", limit)
+
+    for let i = 3; i <= limit; i = i + 2 {
+        print("Testing i =", i, ";", n, "%", i, "=", n % i)
+         if n % i == 0 {
+             print("Divisible by", i)
+             return false
+         }
+     }
+
+     print("Final return TRUE")
+     return true
+}
+
+fn math_isEven(a) {
+    let even = false
+    if a % 2 == 0 {
+        even = true 
+    }
+    return even
+}
+
+fn math_fact(a) {
+    let result = a
+    for let i = a - 1; i > 0; i-- {
+        result = result * i 
+    }
+    return result
+}
+
+fn math_mod(a, b) => a % b
+
+fn math_abs(x) {
+    if x < 0 {
+        return -x
+    }
+    return x
+}
+
+
+
+
+fn math_clamp(x, minVal, maxVal) {
+    if x < minVal {
+        return minVal
+    }
+    if x > maxVal {
+        return maxVal
+    }
+    return x
+}
+
+fn math_floor(x) {
+    let i = x
+    if x < 0 && x != i {
+        return i - 1
+    }
+    return i
+}
+
+fn math_ceil(x) -> float {
+    let i = x
+    if x > 0 && x != i {
+        return i + 1
+    }
+    return i
+}
+
+fn math_round(x, places) -> float {
+        let fr = math.pow(10,places)
+        let res = math.ceil(x * fr + 0.5) / fr
+        return res
+}
+
+
+
+
+
+

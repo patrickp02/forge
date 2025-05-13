@@ -1,0 +1,195 @@
+load "math.forge"
+
+fn simple_interest(p, r, t) -> float {
+    return (p * r * t) / 100
+}
+
+fn compound_interest(p, r, t, n) -> float {
+    return p * math.pow((1 + r / n), n * t)
+}
+
+fn monthly_payment(p, r, y) -> float {
+    let n = y * 12
+    let m = r / 12
+    return (p * m) / (1 - math.pow((1 + m), math.neg(n)))
+}
+
+fn percentage_change(old, new) -> float {
+    return ((new - old) / old) * 100
+}
+
+fn roi(gain, cost) -> float {
+    return ((gain - cost) / cost) * 100
+}
+
+fn future_value(pv, rate, n) -> float {
+    return pv * math.pow((1 + rate), n)
+}
+
+fn present_value(fv, rate, n) -> float {
+    return fv / math.pow((1 + rate), n)
+}
+
+fn npv(rate, cashflows: list) -> float {
+    let total = 0
+    for let i = 0; i < len(cashflows); i++ {
+        total = total + (cashflows[i] / math.pow((1 + rate), i))
+    }
+    return total
+}
+
+fn irr(cashflows: list) -> float {
+    let rate = 0.1
+    let tol = 0.00001
+    let max_iter = 100
+
+    for let iter = 0; iter < max_iter; iter++ {
+        let npv = 0
+        for let i = 0; i < len(cashflows); i++ {
+            npv = npv + (cashflows[i] / math.pow((1 + rate), i))
+        }
+
+        if math.abs(npv) < tol {
+            return rate
+        }
+
+        let delta = 0.0001
+        let npv2 = 0
+        for let i = 0; i < len(cashflows); i++ {
+            npv2 = npv2 + (cashflows[i] / math.pow((1 + rate + delta), i))
+        }
+
+        let derivative = (npv2 - npv) / delta
+        let adjustment = npv / derivative
+
+        if derivative == 0 {
+            return -1
+        }
+        if adjustment == null {
+            return -1
+        }
+
+        rate = rate - adjustment
+
+        if rate == null {
+            return -1
+        }
+        if rate > 1.0 {
+            return -1
+        }
+        if rate < -0.99 {
+            return -1
+        }
+    }
+
+    return rate
+}
+
+
+fn payback_period(cashflows: list) -> float {
+    let total = 0
+    for let i = 0; i < len(cashflows); i++ {
+        total = total + cashflows[i]
+        if total >= 0 {
+            return i
+        }
+    }
+    return math.neg(1)
+}
+
+fn break_even(fixed, variable, price) -> float {
+    return fixed / (price - variable)
+}
+
+fn gross_margin(revenue, cogs) -> float {
+    return ((revenue - cogs) / revenue) * 100
+}
+
+fn ebitda(revenue, expenses) -> float {
+    return revenue - expenses
+}
+
+fn depreciation_sl(cost, salvage, life) -> float {
+    return (cost - salvage) / life
+}
+
+fn depreciation_dd(cost, rate, periods) -> float {
+    let value = cost
+    for let i = 0; i < periods; i++ {
+        value = value - (value * rate)
+    }
+    return value
+}
+
+fn working_capital(assets, liabilities) -> float {
+    return assets - liabilities
+}
+
+fn debt_to_equity(debt, equity) -> float {
+    return debt / equity
+}
+
+fn cagr(start, end, years) -> float {
+    return (math.pow((end / start), (1 / years)) - 1) * 100
+}
+
+fn dscr(noi, debt) -> float {
+    return noi / debt
+}
+
+fn cocr(cashflow, investment) -> float {
+    return (cashflow / investment) * 100
+}
+
+fn amortize(loan, rate, years) -> float {
+    let n = years * 12
+    let r = rate / 12
+    return (loan * r) / (1 - math.pow((1 + r), -n))
+}
+
+fn ber(fixed, margin_pct) -> float {
+    return fixed / (margin_pct / 100)
+}
+
+fn monte_carlo(start, mean, stddev, years, trials) -> list {
+    let results = @()
+    for let t = 0; t < trials; t++ {
+        let value = start
+        for let y = 0; y < years; y++ {
+            let rand = rf() * 2 - 1
+            let noise = rand * stddev
+            value = value * (1 + mean + noise)
+        }
+        results.add(value)
+    }
+    return results
+}
+
+fn format_money(amount) -> float {
+    return math.round(amount, 2)
+}
+
+fn monte_report(results: list) -> list {
+    print("Monte Carlo Report (Sample Size: " + string(len(results)) + ")")
+    print("First 5 outcomes:")
+    for let i = 0; i < 5; i++ {
+        print("Trial " + string(i+1) + ": " + finance.format_money(results[i]))
+    }
+
+    let total = 0
+    let min = results[0]
+    let max = results[0]
+    for let i = 0; i < len(results); i++ {
+        let val = results[i]
+        total = total + val
+        if val < min { min = val }
+        if val > max { max = val }
+    }
+    let avg = total / len(results)
+
+    print("Average: " + finance.format_money(avg))
+    print("Min: " + finance.format_money(min))
+    print("Max: " + finance.format_money(max))
+
+    return results
+}

@@ -1,0 +1,128 @@
+load "math.forge"
+
+
+# test_casting_math.forge — Testing string vs. number operations
+let r = 0.1127368219
+printp(r,6)
+print((true))
+# Test 1: Proper numeric math
+let a = number("20") + 5
+print("Test 1: a =", a)  # Expected: 25
+
+# Test 2: String + number → coerces to string
+let b = "20" + 5
+print("Test 2: b =", b)  # Expected: "205"
+
+# Test 3: number(string + number) → wrong result
+let c = number("20" + 2)
+print("Test 3: c =", c)  # Expected: 202
+
+# Test 4: Proper cast + math
+let input_val = "30"
+let d = number(input_val) + 10
+print("Test 4: d =", d)  # Expected: 40
+
+# Test 5: input + number inside number()
+let e = number("30" + 10)
+print("Test 5: e =", e)  # Expected: 3010
+
+# Test 6: Boolean math
+let f = number(true) + 3
+let g = number(false) + 3
+print("Test 6a: f =", f)  # Expected: 4
+print("Test 6b: g =", g)  # Expected: 3
+
+# Test 7: Using input() correctly
+let age = number(input("Age: ")) + 1
+print("Test 7: age =", age)  # Enter 20 → Expected: 21
+
+# Test 8: Using input() + 1 → string concat
+let bad = input("Enter a number: ") + 1
+print("Test 8: bad =", bad)  # Enter 5 → Expected: "51"
+
+# Test 9: Correct input cast
+let good = number(input("Enter a number: ")) + 1
+print("Test 9: good =", good)  # Enter 5 → Expected: 6
+
+
+print("A:", number("123"))         # → 123
+print("B:", number(true))          # → 1
+print("C:", number(false))         # → 0
+print("D:", number(5 + 2))         # → 7
+print("E:", number("5" + 2))       # → 52 → 52
+attempt { 
+    print("F:", number("abc"))         
+} rescue e {
+    print("Cannot convert", e)
+}
+
+fn tester(a) => a + 100
+
+print(tester(2+2 * 12))
+
+fn add(a, b) => a + b
+fn mult(a, b) => a * b
+fn combo(x) => add(x, 10) + mult(x, 2)
+
+print("A:", tester(5))               # → 105
+print("B:", tester(10 + 20))         # → 130
+print("C:", combo(3))                # → 3+10 + 3*2 = 19
+print("D:", add(1 + 2, 3 + 4))       # → 3, 7 → 10
+print("E:", mult(2 + 3, 4 + 1))      # → 5, 5 → 25
+attempt{
+    fn int_pow(base, exp) -> float{
+        let result = 1.000
+        for let i = 0; i < exp; i++ {
+            result = result * base
+        }
+        return result
+    }
+
+    fn fake_round(x, places) -> float {
+        let factor = int_pow(10,places)
+        let res = (x * factor + 0.5) / factor
+        return res
+    }
+
+    print("Test 11a:", fake_round(2.345, 2))  # Expected: 2.35
+    print("Test 11b:", fake_round(2.344, 2))  # Expected: 2.34
+    print("Test 11c:", fake_round(1.005, 2))  # Expected: 1.01
+    print("Test 11d:", fake_round(5.0, 0))    # Expected: 5
+} rescue e {
+    print("Error :", e)
+}
+
+
+fn monte_carlo(start: float, mean: float, stddev: float, years, trials) -> list {
+    let re = @()
+
+    for let t = 0; t < trials; t++ {
+        let value = start
+        for let y = 0; y < years; y++ {
+            # Normally distributed random return: mean + noise
+            print("Entering loop")
+            let rand = rf() * 2 - 1   # rf() is 0 to 1 → scale to -1 to 1
+            let noise = rand * stddev
+            print(noise)
+            value = value * (1 + mean + noise)
+        } re.add(value)
+        
+    }
+
+    return re
+}
+
+let results = monte_carlo(1.7391, 0.02681, 0.7, 10, 10)
+print(results)
+
+fn success_rate(results: list, target) {
+    let hits = 0
+    print(results)
+    for let i = 0; i < len(results); i++ {
+        if results[i] >= target {
+            hits = hits + 1
+        }
+    }
+    return (float(hits) / len(results)) * 100
+}
+print(success_rate(results,10))

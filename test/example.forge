@@ -1,0 +1,95 @@
+print(10/5)
+
+let x = 5
+while x > 0 {
+    print("x is", x)
+    x = x - 1
+}
+
+if x == 0 {
+    print("done")
+}
+
+fn dub(n) => n * 2
+fn add(a, b) {
+    return a + b
+}
+
+
+
+print("== Testing for loop ==")
+for let j = 1; j <= 5; j++ {
+    print("j:", j)
+}
+print("--Test Lists--")
+let nums = @(1, 2, 3)
+nums.add(4)
+print("Fourth item:", nums[3])
+
+let nums = @(1, 2, 3, 4)
+nums.remove(3)
+print("Index of 4:", nums.index(4))
+
+let nums = @()
+for let i = 1; i <= 5; i++ {
+    nums.add(i)
+}
+print("Final list:")
+print(nums[0])
+print(nums[1])
+print(nums[2])
+print(nums[3])
+print(nums[4])
+let size = len(nums)
+print("Length:", size)
+
+fn sum(a, b) -> number {
+    return a + b
+}
+print("add(2, 3):", sum(2, 3))
+
+
+let nums = @()
+nums.add(1)
+nums.add(2)
+nums.add(3)
+
+print("Length is", len(nums))
+
+for let i = 0; i < len(nums); i++ {
+    attempt {
+        let x = number("42")
+        print("x:", x)
+    } rescue err {
+        print("Caught:", err)
+    }
+}
+write("log.txt", "Hello, Forge!", 2)
+addto("log.txt", "Another line", 1)
+
+let test = read("log.txt")
+print(test)
+
+let username = input("Enter your username: ")
+print("Welcome,", username)
+
+struct User {
+    name: str
+    age: int
+}
+
+let new = User("Pat", 22)
+print(new.name)
+print(new.age)
+
+let name = new.name
+print(len(name))
+let try = "Hello world"
+let test = hash(try)
+
+print(test)
+
+
+print("Double:", dub(x))
+print("Sum:", add(x, 10))
+

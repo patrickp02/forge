@@ -1,0 +1,130 @@
+struct AccountHolder {
+    bank: str
+    accountNumber: str
+    lastName: str
+    firstName: str
+    balance: float
+    isCreditCardHolder: bool
+}
+
+let creditCard = @()
+let accountHistory = @()
+let newUser = 0
+
+fn withdraw() {
+    let amt = number(input("Enter withdraw amount: "))
+    let bal = number(newUser.balance)
+
+    if amt > bal {
+        print("Error: You can't cover that withdrawal!")
+    } else {
+        newUser.balance = string(bal - amt)
+        let entry = "Withdrew $" + string(amt)
+        accountHistory.add(entry)
+        print("Withdrawn: $", amt)
+        print("New Balance: $", newUser.balance)
+    }
+}
+
+fn deposit() {
+    let amt = number(input("Enter deposit amount: "))
+    let bal = number(newUser.balance)
+
+    newUser.balance = string(bal + amt)
+    let entry = "Deposited $" + string(amt)
+    accountHistory.add(entry)
+    print("Deposited: $", amt)
+    print("New Balance: $", newUser.balance)
+}
+
+fn printAccountInfo() {
+    print("---- Account Details ----")
+    print("Name:", newUser.firstName, newUser.lastName)
+    print("Bank:", newUser.bank)
+    print("Account Hash (first 8):", newUser.accountNumber[0] + newUser.accountNumber[1] + "...")
+
+    print("Balance: $" + newUser.balance)
+
+    if newUser.isCreditCardHolder == false {
+        let fullCard = string(creditCard[0] + creditCard[1] + creditCard[2] + creditCard[3])
+        let cardHash = hash(fullCard)
+        print("Credit Card Hash (first 8):", cardHash[0] + cardHash[1] + "...")
+    }
+
+    print("-------------------------")
+}
+
+let active = true
+
+while active == true {
+    attempt {
+        print("Choose an action:")
+        print("1. Setup an Account")
+        print("2. View Account Info")
+        print("3. Deposit")
+        print("4. Withdraw")
+        print("5. View History")
+        print("6. Exit")
+
+        let choice = number(input())
+
+        if choice == 1 {
+            print("Let's set up your account!")
+
+            let bank = input("Bank: ")
+            let first = input("First Name: ")
+            let last = input("Last Name: ")
+            let bal = input("Initial Deposit: ")
+            let hasCard = input("Do you have a credit card? (Y/N): ")
+            let acctNum = string(ri(10000000, 99999999))
+            let acctHash = hash(acctNum)
+
+            let isCardHolder = false
+            if hasCard == "Y" {
+                isCardHolder = true
+            }
+
+            if isCardHolder == false {
+                creditCard = @()
+                for let i = 0; i < 4; i++ {
+                    creditCard.add(ri(1000, 9999))
+                }
+
+                let joined = string(creditCard[0] + creditCard[1] + creditCard[2] + creditCard[3])
+                let cardHash = hash(joined)
+                accountHistory.add("Credit card issued: " + cardHash)
+            }
+
+            newUser = AccountHolder(bank, acctHash, last, first, bal, isCardHolder)
+            accountHistory = @()
+            accountHistory.add("Account created with $" + bal)
+            print("Account setup complete!")
+        }
+
+        if choice == 2 {
+            printAccountInfo()
+        }
+
+        if choice == 3 {
+            deposit()
+        }
+
+        if choice == 4 {
+            withdraw()
+        }
+
+        if choice == 5 {
+            print("---- Transaction History ----")
+            for let i = 0; i < len(accountHistory); i++ {
+                print("-", accountHistory[i])
+            }
+        }
+
+        if choice == 6 {
+            print("Thanks for using Forge Bank!")
+            active = false
+        }
+    } rescue e {
+        print("Error:", e)
+    }
+}

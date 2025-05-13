@@ -1,0 +1,117 @@
+load "conversions.forge"
+load "math.forge"
+load "finance.forge"
+
+print("Testing math functions")
+let result = math.sum(1, 2)
+print(result)
+print("Starting")
+#print(math.forge_round(16.29,0))
+print("--- Attempt Rescue Test With input ---\n")
+let user_input = input("Enter a number:")
+
+
+let n = 0
+attempt {
+    n = number(user_input)
+    print("Converted number:", n)
+} rescue err {
+    print("Invalid input. Using fallback value.")
+    n = 999
+    print("Fallback number:", n)
+}
+
+struct User {
+    name: str
+    job: str
+    isCool: str
+    age: int
+    
+}
+let attempts = 0
+while attempts < 1 {
+    attempt {
+        let Name = input("Hello enter your name: ")
+        let cool = input("Are you cool: ")
+        let job = input("Enter your job title: ")
+        let Age = number(input("Enter your age: " )) + 2
+        let weight = number(input("Enter your weight in lbs: "))
+        let u = User(Name,job,cool,Age)
+
+        print(string(u.name))
+        print(u.job)
+        print(u.age)
+        print(u.isCool)
+
+
+        print("You weigh", conversions.lbkg(weight), "in kg")
+        if Age >= 21 {
+            print("You are able to drink")
+            attempts = 1
+        } else{
+            print("You are young still")
+            attempts = 1
+        }
+        
+    } rescue e {
+        print("Error", e)
+        attempts = 1
+
+        
+    }
+}
+let a = 123
+let b = 456
+
+let aStr = string(a)
+let bStr = string(b)
+
+print("aStr is: " + aStr)
+print("bStr is: " + bStr)
+
+let combined = aStr + bStr
+print("Combined: " + combined)
+
+# Bonus: index into string
+print("First char of aStr: " + aStr[0])
+print("Second char of bStr: " + bStr[1])
+let safeNumber = attempt number("nope") rescue 99
+print("safeNumber is:", safeNumber)
+
+
+for let i = 0; i < 5; i++ {
+    print("i =", i)
+    if i == 2 {
+        break
+    }
+}
+let r = 10
+print(math.ceil(5.2 + 100 * 2 + r))
+
+# forge_function_nesting_test.forge
+
+# Function 1: Simple multiplier
+fn multiply(a, b) -> int {
+    return a * b
+}
+
+# Function 2: Calls multiply with internal variables
+fn compute_area(length, width) -> int {
+    let area = multiply(length, width)
+    return area
+}
+
+# Function 3: Calls compute_area with expressions
+fn wrapped_area(x) -> int {
+    let len = x + 2
+    let wid = x * 2
+    return compute_area(len, wid)
+}
+
+# Test
+print("Area 1:", compute_area(3, 4))       # Expected: 12
+print("Area 2:", wrapped_area(5))          # Expected: (5+2)*(5*2) = 7*10 = 70
+
+
+
+print("Finance")

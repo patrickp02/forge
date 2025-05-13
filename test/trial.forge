@@ -1,0 +1,28 @@
+load "net.forge"
+
+extern("make_sockaddr", number, number)
+
+fn test_bind() {
+    let sock = socket(2, 1, 0)  # AF_INET, SOCK_STREAM, 0
+    print("Socket FD:", sock)
+
+    let port = htons(8080)
+    print("Port (network order):", port)
+
+    # ✅ Use pointer returned from make_sockaddr instead of array
+    let addr = make_sockaddr(port)
+
+    let res = bind(sock, addr, 16)
+    print("bind() result:", res)
+
+    let res2 = listen(sock, 5)
+    print("listen() result:", res2)
+
+    close(sock)
+    print("Socket closed.")
+}
+
+test_bind()
+print(2+2)
+let c = rf()
+print(c)

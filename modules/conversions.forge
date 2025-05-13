@@ -1,0 +1,10 @@
+fn kmtm(km) => km * 0.621371
+
+fn mtkm(m) => m * 1.60934
+
+fn lbkg(lb) => lb * 0.45359237
+
+fn kglb(kg) => kg / 0.45359237
+
+
+

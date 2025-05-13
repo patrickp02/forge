@@ -1,0 +1,9 @@
+
+fn math_pow(a, b) -> float{
+    let result = float(1)
+    for let i = 0; i < b; i++ {
+        result = result * a
+    }
+    return result
+}
+fn compound_interest(p, r, t, n) -> float{ return p * math_pow((1 + r / n), n * t)}

@@ -1,0 +1,28 @@
+extern("socket", number, number, number, number)
+extern("socket", number, number, number, number)
+extern("bind", number, number, number)
+extern("listen", number, number)
+extern("accept", number, number, number)
+extern("connect", number, number, number)
+extern("send", number, string, number)
+extern("recv", number, number, number, number)
+extern("close", number)
+extern("make_sockaddr", number) -> address
+
+extern("htons", number, number)
+extern("inet_pton", number, string, number)
+
+fn socket_tcp() -> number {
+    return socket(2, 1, 0)  # AF_INET, SOCK_STREAM, IPPROTO_IP
+}
+
+fn close_socket(s: address) {
+    close(s)
+}
+
+
+fn create() {
+    let s = socket(2, 1, 0)
+}
+create()
+

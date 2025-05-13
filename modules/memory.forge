@@ -1,0 +1,6 @@
+# memory.forge
+
+extern("forge_alloc", number) -> pointer
+extern("forge_free", pointer)
+extern("forge_memcpy", pointer, pointer, number)
+extern("forge_memset", pointer, number, number)
