@@ -1603,13 +1603,13 @@ def main():
 
     try:
         subprocess.run(compile_cmd, check=True)
-        print("✅ Compiled to 'output'")
+        print("Compiled to 'output'")
     except subprocess.CalledProcessError:
-        print("❌ Compilation failed")
+        print("Compilation failed")
         return
 
     # Run the output program
-    print("🚀 Running program:")
+    print("Running program:")
     subprocess.run([executable])
 
 if __name__ == "__main__":
