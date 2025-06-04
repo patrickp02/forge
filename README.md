@@ -43,6 +43,7 @@ int add(int a, int b) {
 
 int x = add(4, 5);
 printf("%d\n", x);
+```
 
 ## Getting Started
 
@@ -242,6 +243,7 @@ fn dump(ptr: pointer, len: number) {
 dump(person, 1)
 
 let heap = forge_alloc(1024)
+```
 
 ## Runtime Libraries
 
