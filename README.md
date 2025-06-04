@@ -27,22 +27,65 @@ Forge includes the following components:
 
 Forge code:
 ```forge
-fn add(a: int, b: int) -> int {
-    return a + b
+fn test_bind() {
+    let sock = socket(2, 1, 0)  # AF_INET, SOCK_STREAM, 0
+    print("Socket FD:", sock)
+
+    let port = htons(8080)
+    print("Port (network order):", port)
+
+    let addr = make_sockaddr(port)
+    let res = bind(sock, addr, 16)
+    print("bind() result:", res)
+
+    let res2 = listen(sock, 5)
+    print("listen() result:", res2)
+
+    close(sock)
+    print("Socket closed.")
 }
 
-let x = add(4, 5)
-print(x)
+test_bind()
 ```
 ## Transpiled C code:
 
 ```c
-int add(int a, int b) {
-    return a + b;
+int net_socket_tcp() {
+return socket(2, 1, 0);
+}
+int net_close_socket(intptr_t s) {
+close(s);
+}
+int net_create() {
+int s = socket(2, 1, 0);
+}
+int test_bind() {
+int sock = socket(2, 1, 0);
+    printf("%s %d\n", "Socket FD:", sock);
+    ;
+    int port = htons(8080);
+    printf("%s %d\n", "Port (network order):", port);
+    ;
+    intptr_t addr = make_sockaddr(port);
+    int res = bind(sock, (struct sockaddr*)addr, 16);
+    printf("%s %d\n", "bind() result:", res);
+    ;
+    int res2 = listen(sock, 5);
+    printf("%s %d\n", "listen() result:", res2);
+    ;
+    close(sock);
+    printf("%s\n", "Socket closed.");
+    ;
 }
 
-int x = add(4, 5);
-printf("%d\n", x);
+
+
+int main() {
+
+    net_create();
+    ;
+    test_bind();
+}
 ```
 
 ## Getting Started
