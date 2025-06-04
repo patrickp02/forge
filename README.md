@@ -6,11 +6,12 @@ Forge is a statically-typed, high-level programming language that transpiles int
 
 - Clean and expressive syntax for defining variables, functions, structs, and control flow
 - Static typing with type inference and optional annotations
-- High-level constructs like `let`, `if/elif/else`, `for`, `while`, and `match`
+- High-level constructs like `let`, `if/else`, `for`, `while`, and `match'
 - Struct support with dot access and field mutation
 - Modules and imports (`load`)
 - Runtime helpers for file I/O, hashing, random numbers, lists, arrays, and more
 - Built-in functions: `print`, `input`, `read`, `write`, `addto`, `len`, `number`, `string`, `hash`, `rf`, `ri`
+- Support for inline expressions
 - Supports manual memory allocation (Currently, Forge does not have a set garbage collection system so all memory must be freed manually to prevent leaks. This will hopefully be changed in the future.)
 
 ## Architecture
