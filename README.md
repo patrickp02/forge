@@ -33,7 +33,7 @@ fn add(a: int, b: int) -> int {
 
 let x = add(4, 5)
 print(x)
-
+```
 ## Transpiled C code:
 
 ```c
