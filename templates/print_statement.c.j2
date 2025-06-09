@@ -1,0 +1,11 @@
+{% if type == "int" %}
+printf("%d\n", {{ arg }});
+{% elif type == "string" %}
+printf("%s\n", {{ arg }});
+{% elif type == "bool" %}
+printf("%s\n", {{ arg }} ? "true" : "false");
+{% else %}
+printf("%s\n", {{ arg }});  // fallback
+{% endif %}
+
+

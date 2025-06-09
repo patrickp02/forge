@@ -1,0 +1,4 @@
+char* {{ tmp }} = read_file({{ filename }});
+if ({{ tmp }} == NULL) {
+    raise("File read failed");
+}
